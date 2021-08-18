@@ -13,11 +13,11 @@ public class Payload {
         this.map = new LinkedHashMap<>();
     }
 
-    private void addAttribute(String name, MysqlBasicData data) {
+    public void addAttribute(String name, MysqlBasicData data) {
         this.map.put(name, data);
     }
 
-    private MysqlBasicData getAttribute(String name) {
+    public MysqlBasicData getAttribute(String name) {
         return this.map.get(name);
     }
 }
