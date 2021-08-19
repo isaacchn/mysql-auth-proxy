@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import me.isaac.audit.protocol.util.CustomByteUtil;
 import me.isaac.audit.protocol_v2.basic_type.FixedLengthInt;
+import me.isaac.audit.protocol_v2.basic_type.IntType;
 import me.isaac.audit.protocol_v2.basic_type.MysqlBasicData;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,8 +32,11 @@ public class MysqlBasicDataTest {
         };
         byte[] bytes = CustomByteUtil.intArrToByteArr(arr);
         ByteBuf byteBuf = Unpooled.copiedBuffer(bytes);
-        MysqlBasicData data = new FixedLengthInt(1);
-        data.readFrom(byteBuf);
-        Assert.assertEquals(1, data.getLength());
+        MysqlBasicData oneByteData = new FixedLengthInt(1);
+        oneByteData.readFrom(byteBuf);
+        Assert.assertEquals(1, oneByteData.getLength());
+        Assert.assertEquals(0xed, ((IntType) oneByteData).intValue());
+
+
     }
 }

@@ -10,6 +10,9 @@ import me.isaac.audit.util.ClientUtil;
 
 import java.net.InetSocketAddress;
 
+/**
+ * 接收客户端请求，解析并发送给MySQL服务端
+ */
 @ChannelHandler.Sharable
 public class ProxyServerHandler extends ChannelInboundHandlerAdapter {
     private final String remoteHost;

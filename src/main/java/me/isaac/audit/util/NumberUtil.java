@@ -15,7 +15,7 @@ public class NumberUtil {
             long result = 0;
             for (byte aByte : bytes) {
                 result = result << 8;
-                result |= aByte;
+                result |= CustomByteUtil.byteToInt(aByte);
             }
             return result;
         }

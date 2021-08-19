@@ -6,8 +6,10 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.*;
 import io.netty.util.CharsetUtil;
 import me.isaac.audit.protocol.pack.HandshakePayload;
-import me.isaac.audit.protocol.pack.MySQLPacket;
 import me.isaac.audit.protocol.util.PacketConvertUtil;
+import me.isaac.audit.protocol_v3.base.MySQLPacket;
+import me.isaac.audit.protocol_v3.base.MySQLPayload;
+import me.isaac.audit.protocol_v3.packet.handshake.HandshakePacket;
 import me.isaac.audit.util.ClientUtil;
 
 import java.net.InetSocketAddress;
@@ -28,10 +30,11 @@ public class ProxyClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf in = (ByteBuf) msg;
+        Channel clientChannel = ctx.channel();
         System.out.println("========== Client Received ==========");
         //获取TCP连接IP及端口信息
-        InetSocketAddress proxyAddress = (InetSocketAddress) ctx.channel().localAddress();
-        InetSocketAddress mysqlAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+        InetSocketAddress proxyAddress = (InetSocketAddress) clientChannel.localAddress();
+        InetSocketAddress mysqlAddress = (InetSocketAddress) clientChannel.remoteAddress();
 
         System.out.printf("接收到MySQL服务端响应 mysql_addr=%s mysql_port=%d proxy_addr=%s proxy_port=%d%n",
                 mysqlAddress.getAddress().getHostAddress(), mysqlAddress.getPort(),
@@ -46,7 +49,8 @@ public class ProxyClientHandler extends ChannelInboundHandlerAdapter {
         if (ClientUtil.isNew(clientAddress)) {
             System.out.println("这是一条握手初始化报文");
             ClientUtil.init((InetSocketAddress) serverChannel.remoteAddress());
-            MySQLPacket<HandshakePayload> packet = PacketConvertUtil.convertToHandshake(in);
+            //MySQLPacket<HandshakePayload> packet = PacketConvertUtil.convertToHandshake(in);
+            MySQLPacket packet = new HandshakePacket(new MySQLPayload(in));
             System.out.println(JSONUtil.parse(packet).toJSONString(2));
         } else {
 
