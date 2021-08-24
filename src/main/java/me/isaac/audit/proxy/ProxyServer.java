@@ -8,6 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import me.isaac.audit.protocol_v3.codec.MySQLPacketCodecEngine;
+import me.isaac.audit.protocol_v3.codec.PacketCodec;
 
 import java.net.InetSocketAddress;
 
@@ -30,6 +32,7 @@ public class ProxyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
+                            //ch.pipeline().addLast(new PacketCodec(new MySQLPacketCodecEngine()));
                             ch.pipeline().addLast(serverHandler);
                         }
                     }).childOption(ChannelOption.AUTO_READ, false);

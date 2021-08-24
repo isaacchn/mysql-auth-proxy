@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mysql-audit-proxy" />
+        <module name="mysql-auth-proxy" />
       </profile>
     </annotationProcessing>
   </component>

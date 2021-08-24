@@ -5,7 +5,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.util.CharsetUtil;
+import me.isaac.audit.protocol_v3.codec.MySQLPacketCodecEngine;
+import me.isaac.audit.protocol_v3.codec.PacketCodec;
 import me.isaac.audit.util.ClientUtil;
 
 import java.net.InetSocketAddress;
@@ -31,7 +34,14 @@ public class ProxyServerHandler extends ChannelInboundHandlerAdapter {
         Bootstrap b = new Bootstrap();
         b.group(serverChannel.eventLoop())
                 .channel(ctx.channel().getClass())
-                .handler(new ProxyClientHandler(serverChannel))
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) throws Exception {
+                        //ch.pipeline().addLast(new PacketCodec(new MySQLPacketCodecEngine()));
+                        ch.pipeline().addLast(new ProxyClientHandler(serverChannel));
+                    }
+                })
+                // .handler(new ProxyClientHandler(serverChannel))
                 .option(ChannelOption.AUTO_READ, false);
         ChannelFuture f = b.connect(remoteHost, remotePort);
         clientChannel = f.channel();

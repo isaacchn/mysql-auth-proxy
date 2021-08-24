@@ -49,9 +49,8 @@ public class ProxyClientHandler extends ChannelInboundHandlerAdapter {
         if (ClientUtil.isNew(clientAddress)) {
             System.out.println("这是一条握手初始化报文");
             ClientUtil.init((InetSocketAddress) serverChannel.remoteAddress());
-            //MySQLPacket<HandshakePayload> packet = PacketConvertUtil.convertToHandshake(in);
-            MySQLPacket packet = new HandshakePacket(new MySQLPayload(in));
-            System.out.println(JSONUtil.parse(packet).toJSONString(2));
+           // MySQLPacket packet = new HandshakePacket(new MySQLPayload(in));
+            //System.out.println(JSONUtil.parse(packet).toJSONString(2));
         } else {
 
         }
