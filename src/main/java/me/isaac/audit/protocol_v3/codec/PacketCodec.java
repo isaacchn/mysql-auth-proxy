@@ -26,12 +26,14 @@ public class PacketCodec extends ByteToMessageCodec<MySQLPacket> {
         if (log.isDebugEnabled()) {
             log.debug("Read from client {} : \n {}", context.channel().id().asShortText(), ByteBufUtil.prettyHexDump(in));
         }
+        log.debug("PacketCode.decode() channel_id={} readable_bytes={}", context.channel().id().toString(), readableBytes);
         databasePacketCodecEngine.decode(context, in, out);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected void encode(final ChannelHandlerContext context, final MySQLPacket message, final ByteBuf out) {
+        log.debug("PacketCode.encode() channel_id={} readable_bytes={}", context.channel().id().toString(), out.readableBytes());
         databasePacketCodecEngine.encode(context, message, out);
         if (log.isDebugEnabled()) {
             log.debug("Write to client {} : \n {}", context.channel().id().asShortText(), ByteBufUtil.prettyHexDump(out));

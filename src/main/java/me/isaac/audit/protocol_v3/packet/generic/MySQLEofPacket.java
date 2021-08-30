@@ -28,7 +28,7 @@ public final class MySQLEofPacket implements MySQLPacket {
     public MySQLEofPacket(final MySQLPayload payload) {
         sequenceId = payload.readInt1();
         //todo Preconditions.checkArgument(HEADER == payload.readInt1(), "Header of MySQL EOF packet must be `0xfe`.");
-        Assert.isTrue(HEADER == payload.readInt1());
+        Assert.isTrue(HEADER == payload.readInt1(), "Header of MySQL EOF packet must be `0xfe`.");
         warnings = payload.readInt2();
         statusFlags = payload.readInt2();
     }

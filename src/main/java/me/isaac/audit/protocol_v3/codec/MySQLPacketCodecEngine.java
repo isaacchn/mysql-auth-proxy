@@ -23,12 +23,12 @@ public final class MySQLPacketCodecEngine implements DatabasePacketCodecEngine<M
     @Override
     public void decode(ChannelHandlerContext context, ByteBuf in, List<Object> out) {
         int payloadLength = in.markReaderIndex().readMediumLE();
-        int remainPayloadLength = SEQUENCE_LENGTH + payloadLength;
+        int remainPayloadLength = SEQUENCE_LENGTH + payloadLength;//校验长度
         if (in.readableBytes() < remainPayloadLength) {
             in.resetReaderIndex();
             return;
         }
-        out.add(in.readRetainedSlice(SEQUENCE_LENGTH + payloadLength));
+        out.add(in.readRetainedSlice(SEQUENCE_LENGTH + payloadLength));//ByteBuf中剩余readable字节
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ProxyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            //ch.pipeline().addLast(new PacketCodec(new MySQLPacketCodecEngine()));
+                           // ch.pipeline().addLast(new PacketCodec(new MySQLPacketCodecEngine()));
                             ch.pipeline().addLast(serverHandler);
                         }
                     }).childOption(ChannelOption.AUTO_READ, false);
